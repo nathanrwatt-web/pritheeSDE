@@ -1,7 +1,6 @@
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
@@ -9,18 +8,26 @@ public class Main {
 
 
     static String[] textFileToStringArray(String string){
-        return string.split(" ");
+        return string.split("\\s+");
     }
 
     static boolean checkForCorrectWord(String guess, String word) {
-        word = word.toLowerCase(Locale.ROOT);
-        guess = guess.toLowerCase(Locale.ROOT);
+        word = word.toLowerCase()
+                .replaceAll("[^\\p{IsAlphabetic}\\s]", "")
+                .replaceAll("\\s+", " ")
+                .trim();
+        guess = guess.toLowerCase()
+                .replaceAll("[^\\p{IsAlphabetic}\\s]", "")
+                .replaceAll("\\s+", " ")
+                .trim();
         return guess.equals(word);
     }
 
     static void readArray(String[] array, int beggining, int end ){
+        end = Math.min(end, array.length);
         for (int i = beggining; i < end;  i++){
             System.out.print(array[i] + " ");
+            if (i % 10 == 9){System.out.println("\n");}
         }
     }
 
@@ -47,10 +54,11 @@ public class Main {
         while (correct < 3 && wrong < 3) {
             // choose random number between word last guessed and end
             int lastWord = wordToBeGuessed;
-            wordToBeGuessed = (int) (Math.random()*(length - wordToBeGuessed - 7 + correct + wrong) + wordToBeGuessed);
+            wordToBeGuessed = (int) (Math.random()*(length - wordToBeGuessed - 5 + correct + wrong) + wordToBeGuessed + 1);
 
             readArray(sonnet, lastWord, wordToBeGuessed);
             System.out.println("\n Enter word: ");
+            System.out.println(sonnet[wordToBeGuessed]);
             wordFound = checkForCorrectWord(scanner.next(), sonnet[wordToBeGuessed]);
 
             if (wordFound) {
