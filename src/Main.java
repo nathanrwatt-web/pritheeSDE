@@ -47,7 +47,7 @@ public class Main {
         int correct = 0;
         int wrong = 0;
         int wordToBeGuessed = 0;
-        boolean wordFound = false;
+        boolean wordFound;
         Scanner scanner = new Scanner(System.in);
 
 
@@ -58,7 +58,7 @@ public class Main {
 
             readArray(sonnet, lastWord, wordToBeGuessed);
             System.out.println("\n Enter word: ");
-            System.out.println(sonnet[wordToBeGuessed]);
+            // for testing: System.out.println(sonnet[wordToBeGuessed]);
             wordFound = checkForCorrectWord(scanner.next(), sonnet[wordToBeGuessed]);
 
             if (wordFound) {
