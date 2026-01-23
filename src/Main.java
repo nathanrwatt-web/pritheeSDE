@@ -31,14 +31,19 @@ public class Main {
         }
     }
 
+    static void printUnderlines(int wordLength){
+        for (int i = 0; i < wordLength; i++){
+            System.out.print("_");
+        }
+    }
 
-
+    // should the sonnet completely restart or just resume its current place?
     public static void main(String[] args) {
         String text = "";
         try {text = Files.readString(Path.of("docs","sonnet.txt"));
         }
         catch (IOException e) {
-            System.err.println("Could not read file: " + e.getMessage());
+            System.err.print("Could not read file: " + e.getMessage());
         }
 
         String[] sonnet = textFileToStringArray(text);
@@ -52,13 +57,16 @@ public class Main {
 
 
         while (correct < 3 && wrong < 3) {
-            // choose random number between word last guessed and end
+            // choose random number between word last guessed and end, making sure to leave enough room for max 5 other words guessed
             int lastWord = wordToBeGuessed;
             wordToBeGuessed = (int) (Math.random()*(length - wordToBeGuessed - 5 + correct + wrong) + wordToBeGuessed + 1);
 
             readArray(sonnet, lastWord, wordToBeGuessed);
-            System.out.println("\n Enter word: ");
-            // for testing: System.out.println(sonnet[wordToBeGuessed]);
+            System.out.print("\n Enter word: ");
+            printUnderlines(sonnet[wordToBeGuessed].length());
+
+            // for manual testing
+            // System.out.println(" " + sonnet[wordToBeGuessed]);
             wordFound = checkForCorrectWord(scanner.next(), sonnet[wordToBeGuessed]);
 
             if (wordFound) {
